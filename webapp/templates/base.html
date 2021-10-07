@@ -1,0 +1,33 @@
+<!doctype html>
+<title>Is it a bee? Is it an ant?</title>
+<nav>
+  <h1>Bee or Ant</h1>
+</nav>
+<section class="content">
+  <header>
+    See if the almighty computer god can figure out if you gave it a bee or an ant.
+  </header>
+    <input type="file" id="input" multiple>
+    <div id="answer"></div>
+    <script>
+        const inputElement = document.getElementById("input");
+        const answer = document.getElementById("answer");
+        inputElement.addEventListener("change", handleFiles, false); 
+        function handleFiles() {
+            const fileList = this.files; /* now you can work with the file list */
+            var data = new FormData();
+            data.append("file", fileList[0]);
+
+            var xhr = new XMLHttpRequest(); 
+
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                   answer.innerHTML= "It is a.... " + this.responseText;
+                }
+            });
+
+            xhr.open("POST", "http://70.45.51.219:5000/predict");
+            xhr.send(data);
+        }
+    </script>
+</section>
